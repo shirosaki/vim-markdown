@@ -307,6 +307,7 @@ function! s:Toc(...)
     let b:fenced_block = 0
     let b:header_list = []
     let l:header_max_len = 0
+    let l:prev_line = ''
     for i in range(1, line('$'))
         let l:lineraw = getline(i)
         let l:line = substitute(l:lineraw, "#", "\\\#", "g")
@@ -317,11 +318,16 @@ function! s:Toc(...)
                 let b:fenced_block = 0
             endif
         endif
-        if l:line =~ '^#\+' && b:fenced_block == 0
+        if b:fenced_block == 0 && (l:line =~ '^=\+$' || l:line =~ '^-\+$') && l:prev_line =~ '^\S.*'
+            " append line to location list
+            let b:item = {'lnum': i - 1, 'text': l:prev_line, 'valid': 1, 'bufnr': b:bufnr, 'col': 1}
+            let b:header_list = b:header_list + [b:item]
+        elseif b:fenced_block == 0 && l:line =~ '^#\+'
             " append line to location list
             let b:item = {'lnum': i, 'text': l:line, 'valid': 1, 'bufnr': b:bufnr, 'col': 1}
             let b:header_list = b:header_list + [b:item]
-        endif
+        end
+        let l:prev_line = l:line
     endfor
     if len(b:header_list) == 0
         echom "Toc: No headers."
