@@ -70,6 +70,21 @@ To enable/disable folding use Vim's standard folding configuration.
 set [no]foldenable
 ```
 
+### Folding level
+
+Folding level is a number between 1 and 6. By default, if not specified, it is set to 1.
+
+```vim
+let g:vim_markdown_folding_level = 6
+```
+
+Tip: it can be changed on the fly with:
+
+```vim
+:let g:vim_markdown_folding_level = 1
+:edit
+```
+
 ### Change fold style
 
 To fold in a style like [python-mode](https://github.com/klen/python-mode), add
@@ -108,22 +123,6 @@ Highlight YAML frontmatter as used by Jekyll:
 ```vim
 let g:vim_markdown_frontmatter=1
 ```
-
-#### Folding level
-
-Folding level is a number between 1 and 6. By default, if not specified, it is set to 1.
-
-```vim
-let g:vim_markdown_folding_level = 6
-```
-
-Tip: it can be changed on the fly with:
-
-```vim
-:let g:vim_markdown_folding_level = 1
-:edit
-```
-
 
 ## Mappings
 
