@@ -102,6 +102,25 @@ syn match  htmlH2       /^.\+\n-\+$/ contains=@Spell
 if get(g:, 'vim_markdown_frontmatter', 0)
   syn include @yamlTop syntax/yaml.vim
   syn region Comment matchgroup=mkdDelimiter start="\%^---$" end="^---$" contains=@yamlTop
+  if exists('b:current_syntax')
+    unlet b:current_syntax
+  endif
+
+  try
+    syn include @tomlTop syntax/toml.vim
+    syn region Comment matchgroup=mkdDelimiter start="\%^+++$" end="^+++$" transparent contains=@tomlTop
+  catch /E484/
+    syn region Comment matchgroup=mkdDelimiter start="\%^+++$" end="^+++$"
+  endtry
+  if exists('b:current_syntax')
+    unlet b:current_syntax
+  endif
+
+  syn include @jsonTop syntax/json.vim
+  syn region Comment matchgroup=mkdDelimiter start="\%^{$" end="^}$" contains=@jsonTop
+  if exists('b:current_syntax')
+    unlet b:current_syntax
+  endif
 endif
 
 if get(g:, 'vim_markdown_math', 0)
